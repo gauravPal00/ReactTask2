@@ -1,0 +1,28 @@
+<!-- <Col>
+                    <Card  style={style} >
+                      <Card.Body>
+                        <Card.Title>{item.id} : {item.title}</Card.Title>
+                        <Card.Text>
+                          {item.body}
+                        </Card.Text>
+                        <Button style={{marginRight:"5px"}} variant="danger" onClick={()=>{dispatch(deleteHandler(item.id))}}>DELETE</Button>
+                        <Button style={{marginRight:"5px"}}  onClick={()=>{mainHandle(item.id)}} variant="info">Comments</Button>
+                        <Button onClick={()=>{editHandle(item)}} variant='warning'>Edit</Button>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+
+
+
+
+
+                  const {isOpenModal} = useSelector((state)=>state.FetchReducers)
+                  const [currentPage, setCurrentPage] = useState(1)
+                  const [postsPerPage, setPostsPerPage] = useState(10)
+                
+                  const lastPostIndex = currentPage * postsPerPage;
+                  const firstPostIndex = lastPostIndex - postsPerPage
+                  const currentPost = list.slice(firstPostIndex, lastPostIndex)
+                  <Pagination totalPosts={list.length} postsPerPage={postsPerPage} setCurrentPage={setCurrentPage} />
+
+                  <Dialog isOpenModal={isOpenModal}/> -->
