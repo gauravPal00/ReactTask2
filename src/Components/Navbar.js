@@ -10,7 +10,6 @@ export const Header = () => {
       <Navbar.Brand >App</Navbar.Brand>
       <Nav className="me-auto">
       <Nav.Link > <Link className='Links' to="/"> All-Post </Link>  </Nav.Link>
-      {/* <Nav.Link >  <Link  className='Links' to="/user">   Users</Link> </Nav.Link> */}
       <Nav.Link >  <Link  className='Links' to="/addpost">   Add-Post </Link> </Nav.Link>
       <Nav.Link >  <Link className='Links' to="/allalbum">  AllAlbum </Link> </Nav.Link>
       <Nav.Link >  <Link className='Links' to="/addalbum">  AddAlbum </Link></Nav.Link> 

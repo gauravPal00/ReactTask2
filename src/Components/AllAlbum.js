@@ -2,7 +2,7 @@ import {Dialog} from './Modal'
 import React, { useEffect, useState } from 'react'
 import { Button, Card, Col, Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { deletealbumHandler, modalHandler, userAlbumFetch, userAlbumFetchData } from './Action'
+import { AlbumDataDelete, modalHandler, AlbumDataFetch, AlbumUserDataFetch } from './Action/AlbumIndex'
 import { Pagination } from './Pagination'
 import { useNavigate } from 'react-router-dom'
 
@@ -26,11 +26,11 @@ export const AllAlbum = () => {
     marginLeft:"10px "
   }
   useEffect(()=>{
-    dispatch(userAlbumFetch())
+    dispatch(AlbumDataFetch())
   },[])
 
   const mainHandle = (id)=>{
-    dispatch(userAlbumFetchData(id))
+    dispatch(AlbumUserDataFetch(id))
     dispatch(modalHandler(true))
    }
    const editHandle = (item)=>{
@@ -52,7 +52,7 @@ export const AllAlbum = () => {
                       
                     </Card.Body>
                   </Card>
-                  <Button onClick={()=>{dispatch(deletealbumHandler(item.id))}} variant="danger">DELETE</Button>
+                  <Button onClick={()=>{dispatch(AlbumDataDelete(item.id))}} variant="danger">DELETE</Button>
                   <Button style={style1} onClick={()=>{editHandle(item)}} variant='warning'>Edit</Button>
                 </Col>
               </React.Fragment>

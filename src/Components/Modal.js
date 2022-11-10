@@ -1,7 +1,7 @@
 import React from 'react'
 import {  Card, Col, Modal, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { modalHandler } from './Action'
+import { modalHandler } from './Action/AlbumIndex'
 
 
 export const Dialog = ({ isOpenModal ,selData}) => {
@@ -29,7 +29,7 @@ export const Dialog = ({ isOpenModal ,selData}) => {
         {
           selData.map((item,index)=>{
             return(
-              <Col style={style1}>
+              <Col key={index} style={style1}>
               <Card >
                 <Card.Body>
 
@@ -46,8 +46,7 @@ export const Dialog = ({ isOpenModal ,selData}) => {
                     <img style={style}  src={item.url} alt={item.thumbnailUrl}/>
                   </Card.Text>
                   }
-                  
-                 
+
                 </Card.Body>
               </Card>
             </Col>

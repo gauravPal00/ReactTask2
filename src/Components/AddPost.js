@@ -4,7 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { postHandler, updateHandler } from './Action';
+import { postDataHandler, PostupdateHandler } from './Action/PostIndex';
+
 
 export const AddPost = ({state}) => {
   let Location = useLocation()
@@ -54,7 +55,7 @@ export const AddPost = ({state}) => {
       document.getElementById("demo").innerHTML = " Please Enter Your body description "
     }
     else {
-      dispatch(updateHandler(inpVal))
+      dispatch(PostupdateHandler(inpVal))
       navigate("/")
       document.getElementById("demo").innerHTML = ""
       setInpVal({
@@ -85,7 +86,7 @@ export const AddPost = ({state}) => {
       document.getElementById("demo").innerHTML = " Please Enter Your body description "
     }
     else {
-      dispatch(postHandler(inpVal))
+      dispatch(postDataHandler(inpVal))
       document.getElementById("demo").innerHTML = ""
       setInpVal({
         title: "",

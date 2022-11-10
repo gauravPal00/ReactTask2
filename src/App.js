@@ -6,7 +6,7 @@ import { AllPosts } from './Components/AllPosts';
 import { AddPost } from './Components/AddPost';
 import { AllAlbum } from './Components/AllAlbum';
 import { AddAlbum } from './Components/AddAlbum';
-import { Users } from './Components/Users';
+
 
 function App() {
   return (
@@ -16,7 +16,6 @@ function App() {
       <Routes>
         <Route exact path='/' element={<AllPosts/>}/>
         <Route path="/addpost" element={<AddPost/>} />
-        {/* <Route  path='/user' element={<Users/>}/> */}
         <Route path="/allalbum" element={<AllAlbum/>} />
         <Route path='/addalbum' element={<AddAlbum/>} />
       </Routes>

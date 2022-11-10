@@ -11,14 +11,14 @@ const initialstate ={
 
 export const FetchReducers = (state=initialstate,action) => {
     switch(action.type){
-        case "FETCHUSERSUCCESS":
+        case "FETCHUSERPOST":
             const data = action.payload
             return {
                 ...state,
                 post:data
             }
 
-            case "FETCHUSERSUCCESS1":
+            case "FETCHUSER":
             const data1 = action.payload
             return {
                 ...state,
@@ -26,22 +26,21 @@ export const FetchReducers = (state=initialstate,action) => {
             }
 
 
-            case "FETCHUSERSUCCESS2":
+            case "FETCHUSERPOSTBYID":
             const data2 = action.payload
-            console.log(data2);
             return {
                 ...state,
                 userData:data2
             }
 
 
-            case "FETCHUSERSUCCESS3":
+            case "FETCHUSERCOMMENTS":
             const data3 = action.payload
-            
             return {
                 ...state,
                 selData:data3,
             }
+
             case "FETCHALBUMDATA":
                 return{
                     ...state,

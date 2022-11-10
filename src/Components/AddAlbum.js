@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { albumHandler, updateAlbumHandler } from './Action';
+import { postAlbumData, updateAlbumData } from './Action/AlbumIndex';
 
 
 
@@ -57,7 +57,7 @@ export const AddAlbum = () => {
       document.getElementById("demo").innerHTML = " Please Enter Your title "
     }
     else{
-      dispatch(updateAlbumHandler(inpVal))
+      dispatch(updateAlbumData(inpVal))
       navigate("/allalbum")
       document.getElementById("demo").innerHTML = ""
       setInpVal({
@@ -76,7 +76,7 @@ export const AddAlbum = () => {
       document.getElementById("demo").innerHTML = " Please Enter Your title "
     }
     else{
-      dispatch(albumHandler(inpVal))
+      dispatch(postAlbumData(inpVal))
       document.getElementById("demo").innerHTML = ""
       setInpVal({
         title: "",
