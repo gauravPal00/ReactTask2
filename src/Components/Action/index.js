@@ -127,14 +127,93 @@ export const postHandler = (data)=>{
 
 
 export const updateHandler = (data)=>{
-    console.log(data.id);
     return dispatch => {
         axios.put(`https://jsonplaceholder.typicode.com/posts/${data.id} `,data).then((res)=>{
-            console.log(res);
             alert("updated")
+        }).catch((err)=>{
+            
+            console.log(err);
+        }) 
+    }
+}
+
+// album api get
+
+export const userAlbumFetch = ()=>{
+    return dispatch => {
+            axios.get(" https://jsonplaceholder.typicode.com/albums").then((res)=>{
+                dispatch(fetchUserSuccess(res.data))
+            }).catch((err)=>{
+                console.log(err);
+            }) 
+    }
+}
+
+
+
+export const userAlbumFetchData = (id)=>{
+    return dispatch => {
+            axios.get(`https://jsonplaceholder.typicode.com/albums/${id}/photos`).then((res)=>{
+                dispatch(fetchUserSuccess4(res.data))
+                
+            }).catch((err)=>{
+                console.log(err);
+            }) 
+    }
+}
+
+export const fetchUserSuccess4 = (data)=>{
+    return{
+        type:"FETCHALBUMDATA",
+        payload:data
+    }
+}
+
+export const deletealbumHandler = (id)=>{
+    return dispatch => {
+        axios.delete(`https://jsonplaceholder.typicode.com/albums/${id} `).then((res)=>{
+            dispatch(fetchAlbumdelete(res.data))
+            alert("DELETED")
         }).catch((err)=>{
             console.log(err);
         }) 
     }
 }
 
+
+
+export const fetchAlbumdelete = (data) => {
+    
+    return{
+        type:"FETCHUSERDELETE",
+    }
+}
+
+
+export const albumHandler = (data)=>{
+    const data1 = {
+        title:data.title,
+        body:data.body,
+        userId:data.userId
+       }
+        return dispatch => {
+            axios.post(`https://jsonplaceholder.typicode.com/albums`,data1).then((res)=>{
+                console.log(res);
+                alert("Succefully Added")
+            }).catch((err)=>{
+                console.log(err);
+            }) 
+        }
+}
+
+
+export const updateAlbumHandler = (data)=>{
+    return dispatch => {
+        axios.put(`https://jsonplaceholder.typicode.com/posts/${data.id} `,data).then((res)=>{
+            alert("updated")
+        }).catch((err)=>{
+            console.log(err);
+        }) 
+    }
+}
+ 

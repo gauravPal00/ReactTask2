@@ -14,6 +14,7 @@ export const AllPosts = () => {
   const  {user} = useSelector((state) => state.FetchReducers)
   const {userData} = useSelector((state) => state.FetchReducers) 
   const {isOpenModal} = useSelector((state)=>state.FetchReducers)
+  const { selData } = useSelector((state) => state.FetchReducers)
   const [currentPage, setCurrentPage] = useState(1)
   const [postsPerPage, setPostsPerPage] = useState(10)
   const lastPostIndex = currentPage * postsPerPage;
@@ -40,7 +41,9 @@ export const AllPosts = () => {
 
   return (
     <Container>
-      <select style={style} onChange={(e) => dispatch(userFetch2(e.target.value))}>
+      <h3>All Post</h3>
+     <center>
+       <select style={style} onChange={(e) => dispatch(userFetch2(e.target.value))}>
                 <option>Choose username</option>
                 {
                     user.map((item, index) => {
@@ -52,13 +55,10 @@ export const AllPosts = () => {
                     })
                 }
             </select>
-
+            </center>
 
 
       <Row lg={3} sm={1} md={2} >
-
-
-
         {
           userData.length == 0 ?
           
@@ -66,17 +66,16 @@ export const AllPosts = () => {
             return (
               <React.Fragment key={index}>
                 <Col>
-                  <Card style={style} >
+                  <Card style={style} onClick={()=>{mainHandle(item.id)}} >
                     <Card.Body>
                       <Card.Title>{item.id} : {item.title}</Card.Title>
                       <Card.Text>
                         {item.body}
                       </Card.Text>
-                      <Button style={{marginRight:"5px"}} variant="danger" onClick={()=>{dispatch(deleteHandler(item.id))}}>DELETE</Button>
-                                 <Button style={{marginRight:"5px"}}  onClick={()=>{mainHandle(item.id)}} variant="info">Comments</Button>
-                                 <Button onClick={()=>{editHandle(item)}} variant='warning'>Edit</Button>
                     </Card.Body>
                   </Card>
+                  <Button style={{marginRight:"5px"}} variant="danger" onClick={()=>{dispatch(deleteHandler(item.id))}}>DELETE</Button>      
+                     <Button onClick={()=>{editHandle(item)}} variant='warning'>Edit</Button>
                 </Col>
               </React.Fragment>
             )
@@ -103,8 +102,10 @@ export const AllPosts = () => {
           })
         }
       </Row>
-      <Pagination  totalPosts={post.length} postsPerPage={postsPerPage} setCurrentPage={setCurrentPage} />
-      <Dialog isOpenModal={isOpenModal}/>
+     {
+      userData.length>0 ? null: <Pagination  totalPosts={post.length} postsPerPage={postsPerPage} setCurrentPage={setCurrentPage} />
+     }
+      <Dialog isOpenModal={isOpenModal} selData={selData}/>
     </Container>
   )
 }

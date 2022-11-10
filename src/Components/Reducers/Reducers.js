@@ -5,6 +5,7 @@ const initialstate ={
     userData : [],
     selData:[],
     editData:[],
+    albumData:[],
     isOpenModal:false,
 }
 
@@ -36,11 +37,16 @@ export const FetchReducers = (state=initialstate,action) => {
 
             case "FETCHUSERSUCCESS3":
             const data3 = action.payload
+            
             return {
                 ...state,
                 selData:data3,
             }
-
+            case "FETCHALBUMDATA":
+                return{
+                    ...state,
+                    albumData:action.payload
+                }
             case "OPENMODAL":
                 return{
                     ...state,

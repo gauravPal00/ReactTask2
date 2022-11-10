@@ -3,12 +3,14 @@ import { Container, FloatingLabel } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { postHandler, updateHandler } from './Action';
 
 export const AddPost = ({state}) => {
   let Location = useLocation()
   let data = Location.state
+ 
+     let navigate =  useNavigate()
 
    const dispatch = useDispatch()
   const [inpVal, setInpVal] = useState({
@@ -36,6 +38,10 @@ export const AddPost = ({state}) => {
       })
     }
   },[])
+
+  const style ={
+    marginLeft:"10px"
+  }
   
   const updatetHandler = ()=>{
     if (inpVal.userId === "") {
@@ -49,6 +55,7 @@ export const AddPost = ({state}) => {
     }
     else {
       dispatch(updateHandler(inpVal))
+      navigate("/")
       document.getElementById("demo").innerHTML = ""
       setInpVal({
         title: "",
@@ -57,8 +64,15 @@ export const AddPost = ({state}) => {
       })
     }
   }
- 
 
+  const resetHandler = ()=>{
+    setInpVal({
+      title:"",
+      body:"",
+      userId:""
+    })
+  }
+ 
   const submitHandler = () => {
 
     if (inpVal.userId === "") {
@@ -114,9 +128,13 @@ export const AddPost = ({state}) => {
     {
       data ? <Button onClick={updatetHandler} variant="danger" >
       Update
-    </Button>:<Button onClick={submitHandler} variant="primary" >
+    </Button>:
+    <>
+    <Button onClick={submitHandler} variant="primary" >
       Submit
     </Button>
+    <Button style={style} onClick={resetHandler} variant='info'>Reset</Button>
+    </>
     }
       </Form>
     </Container>

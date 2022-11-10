@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route exact path='/' element={<AllPosts/>}/>
         <Route path="/addpost" element={<AddPost/>} />
-        <Route  path='/user' element={<Users/>}/>
+        {/* <Route  path='/user' element={<Users/>}/> */}
         <Route path="/allalbum" element={<AllAlbum/>} />
         <Route path='/addalbum' element={<AddAlbum/>} />
       </Routes>

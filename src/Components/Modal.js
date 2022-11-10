@@ -1,52 +1,61 @@
-import React, { useEffect, useState } from 'react'
-import {  Modal } from 'react-bootstrap'
+import React from 'react'
+import {  Card, Col, Modal, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { modalHandler } from './Action'
 
 
-export const Dialog = ({ isOpenModal }) => {
+export const Dialog = ({ isOpenModal ,selData}) => {
   const dispatch = useDispatch()
-  const { selData } = useSelector((state) => state.FetchReducers)
-  const [data,setData] = useState([])
+
   const closeHandler = () => {
     dispatch(modalHandler(false))
   }
-  useEffect(()=>{
-    setData(selData)
-  },[selData])
+
+  const style = {
+    height:"100px",
+    weigth:"100px"
+
+  }
+  const style1 ={
+    margin:"10px 0"
+  }
+ 
   return (
     <Modal show={isOpenModal}>
       <Modal.Header closeButton onClick={closeHandler} >
-        {
-          data.length>0 && <h3>Comments</h3>
-        }
       </Modal.Header>
       <Modal.Body>
-        { data.length>0 &&
-           <table className="table">
-           <thead>
-             <tr>
-               <th scope="col">postId</th>
-               <th scope="col">ID</th>
-               <th scope="col">Comment</th>
-             </tr>
-           </thead>
-           <tbody>
-             {
-               data.map((item, index) => {
-                 return (
-                   <tr key={index}>
-                     <td>{item.postId}</td>
-                     <td>{item.id}</td>
-                     <td>{item.body}</td>
-                   </tr>
-                 )
-               })
-             }
-           </tbody>
-         </table>
+      <Row lg={2} sm={1} md={1} >
+        {
+          selData.map((item,index)=>{
+            return(
+              <Col style={style1}>
+              <Card >
+                <Card.Body>
+
+                  {
+                      item.body ? <Card.Title>{item.id} : {item.title}</Card.Title> : null
+                  }
+                  
+                  {
+                    item.body ?
+                    <Card.Text>
+                    {item.body}
+                  </Card.Text> :
+                  <Card.Text>
+                    <img style={style}  src={item.url} alt={item.thumbnailUrl}/>
+                  </Card.Text>
+                  }
+                  
+                 
+                </Card.Body>
+              </Card>
+            </Col>
+            )
+          })
         }
-       
+     
+      </Row>
       </Modal.Body>
 
     </Modal>
