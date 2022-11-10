@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, Card, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import {   useNavigate } from 'react-router-dom';
 import { modalHandler } from './Action/AlbumIndex';
 import { deletePostHandler, PostCommentsFetch } from './Action/PostIndex';
 
 export const AllCard = ({item}) => {
+  
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -18,6 +19,7 @@ export const AllCard = ({item}) => {
     dispatch(modalHandler(true))
   }
 
+  
 
   const style = {
     margin: "10px 0"
