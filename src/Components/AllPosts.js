@@ -1,18 +1,18 @@
 
 import React, { useEffect, useState } from 'react'
-import { Button, Card, Col, Container, Row } from 'react-bootstrap'
+import {  Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { modalHandler } from './Action/AlbumIndex'
+
 import { Pagination } from './Pagination'
 import { Dialog } from './Modal'
-// import { AllCard } from './AllCard'
-import { deletePostHandler, postDataFetch, PostUserDataFetch, PostCommentsFetch } from './Action/PostIndex'
+import { AllCard } from './AllCard'
+import { postDataFetch, PostUserDataFetch } from './Action/PostIndex'
 import { FetchUser } from './Action/UserIndex'
 
 export const AllPosts = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+  
   const { post } = useSelector((state) => state.FetchReducers)
   const { user } = useSelector((state) => state.FetchReducers)
   const { userData } = useSelector((state) => state.FetchReducers)
@@ -34,14 +34,9 @@ export const AllPosts = () => {
     dispatch(FetchUser())
   }, [])
 
-  const mainHandle = (id) => {
-    dispatch(PostCommentsFetch(id))
-    dispatch(modalHandler(true))
-  }
-  const editHandle = (item) => {
-    navigate("/addpost", { state: item })
-  }
+  
 
+ 
   return (
     <Container>
       <h3>All Post</h3>
@@ -67,40 +62,13 @@ export const AllPosts = () => {
 
             currentPost.map((item, index) => {
               return (
-                // <AllCard key={index} item={item}/>
-                <React.Fragment key={index}>
-                  <Col>
-                    <Card style={style} onClick={() => { mainHandle(item.id) }} >
-                      <Card.Body>
-                        <Card.Title>{item.id} : {item.title}</Card.Title>
-                        <Card.Text>
-                          {item.body}
-                        </Card.Text>
-                      </Card.Body>
-                    </Card>
-                    <Button style={{ marginRight: "5px" }} variant="danger" onClick={() => { dispatch(deletePostHandler(item.id)) }}>DELETE</Button>
-                    <Button onClick={() => { editHandle(item) }} variant='warning'>Edit</Button>
-                  </Col>
-                </React.Fragment>
+                <AllCard key={index} item={item}/>
               )
             })
 
             : userData.map((item, index) => {
               return (
-                <React.Fragment key={index}>
-                  <Col>
-                    <Card style={style} onClick={() => { mainHandle(item.id) }}>
-                      <Card.Body>
-                        <Card.Title>{item.id} : {item.title}</Card.Title>
-                        <Card.Text>
-                          {item.body}
-                        </Card.Text>
-                      </Card.Body>
-                    </Card>
-                        <Button style={{ marginRight: "5px" }} variant="danger" onClick={() => { dispatch(deletePostHandler(item.id)) }}>DELETE</Button>
-                        <Button onClick={() => { editHandle(item) }} variant='warning'>Edit</Button>
-                  </Col>
-                </React.Fragment>
+                  <AllCard key={index} item={item}/>
               )
             })
         }

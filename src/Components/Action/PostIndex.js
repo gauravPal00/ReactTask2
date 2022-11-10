@@ -62,6 +62,7 @@ export const deletePostHandler = (id)=>{
     return dispatch => {
         axios.delete(`https://jsonplaceholder.typicode.com/posts/${id} `).then((res)=>{
             dispatch(fetchUserdelete(res.data))
+            alert("DELETED SUCCESSFULLY")
             console.log(res.data);
         }).catch((err)=>{
             console.log(err);
