@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import ReactPaginate from 'react-paginate'
-import { Dialog } from './Modal'
-import { AllCard } from './AllCard'
-import { postDataFetch, PostUserDataFetch } from './Action/PostIndex'
-import { FetchUser } from './Action/UserIndex'
+import {Dialog} from '../../Components/modal/Modal'
+import { postDataFetch, PostUserDataFetch } from '../../redux/action/post'
+import { FetchUser } from '../../redux/action/user'
 import { useLocation } from 'react-router-dom'
+import { AllCard } from './AllCard'
 
 export const AllPosts = () => {
   const dispatch = useDispatch()

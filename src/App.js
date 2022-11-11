@@ -1,11 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Header } from './Components/Navbar';
-import { AllPosts } from './Components/AllPosts';
-import { AddPost } from './Components/AddPost';
-import { AllAlbum } from './Components/AllAlbum';
-import { AddAlbum } from './Components/AddAlbum';
+import { Header } from './Components/header/Navbar';
+import { AllPosts } from './Components/posts/AllPosts';
+import { AddPost } from './Components/posts/AddPost';
+import { AllAlbum } from './Components/albums/AllAlbum';
+import { AddAlbum } from './Components/albums/AddAlbum';
 
 
 function App() {

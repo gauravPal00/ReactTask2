@@ -4,8 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { postAlbumData, updateAlbumData } from './Action/AlbumIndex';
-
+import { postAlbumData,updateAlbumData } from '../../redux/action/album';
+import { Validate1 } from '../validations/Validate1';
 
 
 export const AddAlbum = () => {
@@ -14,13 +14,17 @@ export const AddAlbum = () => {
   let Location = useLocation()
   const navigate = useNavigate()
   let data = Location.state
-  const [inpVal,setInpVal] = useState({
+  const [valueAlbum,setValueAlbum] = useState({
     userId:"",
     title:""
   })
+  const[errors,setErrors] = useState({})
+
+  const[dataIstrue,setDataIstrue] = useState(false)
+  const[dataIsupdate,setDataIsupdate] = useState(false)
 
   const resetHandler = ()=>{
-    setInpVal({
+    setValueAlbum({
       title:"",
       userId:""
     })
@@ -32,13 +36,12 @@ export const AddAlbum = () => {
 
   useEffect(()=>{
     if(data){
-      setInpVal(data)
+      setValueAlbum(data)
     }
     else {
-      setInpVal({
+      setValueAlbum({
         title: "",
         userId: "",
-        body: ""
       })
     }
   },[])
@@ -46,52 +49,49 @@ export const AddAlbum = () => {
   const handler = (e)=>{
     const name = e.target.name
     const value = e.target.value
-    setInpVal({ ...inpVal, [name]: value })
+    setValueAlbum({ ...valueAlbum, [name]: value })
   }
 
-  const updatetHandler = ()=>{
-    if (inpVal.userId === "") {
-      document.getElementById("demo").innerHTML = " Please Enter Your userd-Id "
-    }
-    else if (inpVal.title === "") {
-      document.getElementById("demo").innerHTML = " Please Enter Your title "
-    }
-    else{
-      dispatch(updateAlbumData(inpVal))
-      navigate("/allalbum")
-      document.getElementById("demo").innerHTML = ""
-      setInpVal({
-        title: "",
-        userId: "",
-      })
+  const updatetHandler = (e)=>{
+    e.preventDefault()
+    setErrors(Validate1(valueAlbum))
+    setDataIsupdate(true)
+    
+  }
+
+  const submitHandler = (e) => {
+    e.preventDefault()
+    setErrors(Validate1(valueAlbum))
+    setDataIstrue(true)
   
-    }
   }
 
-  const submitHandler = () => {
-    if (inpVal.userId === "") {
-      document.getElementById("demo").innerHTML = " Please Enter Your userd-Id "
-    }
-    else if (inpVal.title === "") {
-      document.getElementById("demo").innerHTML = " Please Enter Your title "
-    }
-    else{
-      dispatch(postAlbumData(inpVal))
-      document.getElementById("demo").innerHTML = ""
-      setInpVal({
+  useEffect(()=>{
+    if(Object.keys(errors).length === 0 && dataIstrue){
+      dispatch(postAlbumData(valueAlbum))
+      setValueAlbum({
         title: "",
-        userId: "",
+         userId: "",
       })
-     
-    }
+      
   }
+  else if(Object.keys(errors).length === 0 && dataIsupdate){
+    dispatch(updateAlbumData(valueAlbum))
+       navigate("/allalbum")
+       setValueAlbum({
+         title: "",
+         userId: "",
+       })
+  }
+  },[errors])
 
   return (
     <Container>
     <Form>
       <Form.Group className="mb-3" >
         <Form.Label>User Id :</Form.Label>
-        <Form.Control type="number" name="userId" value={inpVal.userId} placeholder="Enter Your User id" onChange={handler} />
+        <Form.Control type="number" name="userId" value={valueAlbum.userId} placeholder="Enter Your User id" onChange={handler} />
+        {errors.userId && <p className='error'>{errors.userId}</p>}
       </Form.Group>
       <Form.Group className="mb-3" >
         <Form.Label>Title :</Form.Label>
@@ -101,10 +101,11 @@ export const AddAlbum = () => {
           label="Enter your title"
           className="mb-3"
         >
-          <Form.Control value={inpVal.title} name="title" as="textarea" placeholder="Leave a comment here" onChange={handler} />
+          <Form.Control value={valueAlbum.title} name="title" as="textarea" placeholder="Leave a comment here" onChange={handler} />
         </FloatingLabel>
+        {errors.title && <p className='error'>{errors.title}</p>}
       </Form.Group>
-      <p style={{ color: "red" }} id='demo'></p>
+
       {
       data ? <Button onClick={updatetHandler} variant="danger" >
       Update

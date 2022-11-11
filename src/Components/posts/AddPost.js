@@ -4,7 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { postDataHandler, PostupdateHandler } from './Action/PostIndex';
+import {postDataHandler,PostupdateHandler } from '../../redux/action/post';
+import { Validate } from '../validations/Validate';
 
 
 export const AddPost = ({state}) => {
@@ -19,6 +20,11 @@ export const AddPost = ({state}) => {
     userId: "",
     body: ""
   })
+
+  const[errors,setErrors] = useState({})
+
+  const[dataIstrue,setDataIstrue] = useState(false)
+  const[dataIsupdate,setDataIsupdate] = useState(false)
 
   const handler = (e) => {
     const name = e.target.name
@@ -44,26 +50,10 @@ export const AddPost = ({state}) => {
     marginLeft:"10px"
   }
   
-  const updatetHandler = ()=>{
-    if (inpVal.userId === "") {
-      document.getElementById("demo").innerHTML = " Please Enter Your userd-Id "
-    }
-    else if (inpVal.title === "") {
-      document.getElementById("demo").innerHTML = " Please Enter Your title "
-    }
-    else if (inpVal.body === "") {
-      document.getElementById("demo").innerHTML = " Please Enter Your body description "
-    }
-    else {
-      dispatch(PostupdateHandler(inpVal))
-      navigate("/")
-      document.getElementById("demo").innerHTML = ""
-      setInpVal({
-        title: "",
-        body: "",
-        userId: "",
-      })
-    }
+  const updatetHandler = (e)=>{
+    e.preventDefault()
+      setErrors(Validate(inpVal))
+      setDataIsupdate(true)
   }
 
   const resetHandler = ()=>{
@@ -74,34 +64,40 @@ export const AddPost = ({state}) => {
     })
   }
  
-  const submitHandler = () => {
+  const submitHandler = (e) => {
+    e.preventDefault()
+    setErrors(Validate(inpVal))
+    setDataIstrue(true)
+    
+  }
 
-    if (inpVal.userId === "") {
-      document.getElementById("demo").innerHTML = " Please Enter Your userd-Id "
-    }
-    else if (inpVal.title === "") {
-      document.getElementById("demo").innerHTML = " Please Enter Your title "
-    }
-    else if (inpVal.body === "") {
-      document.getElementById("demo").innerHTML = " Please Enter Your body description "
-    }
-    else {
+  useEffect(()=>{
+    if(Object.keys(errors).length === 0 && dataIstrue){
       dispatch(postDataHandler(inpVal))
-      document.getElementById("demo").innerHTML = ""
       setInpVal({
         title: "",
         body: "",
-        userId: "",
+         userId: "",
       })
-    }
-
+      
   }
+  else if(Object.keys(errors).length === 0 && dataIsupdate){
+    dispatch(PostupdateHandler(inpVal))
+       navigate("/")
+       setInpVal({
+         title: "",
+         body: "",
+         userId: "",
+       })
+  }
+  },[errors])
   return (
     <Container>
       <Form>
         <Form.Group className="mb-3" >
           <Form.Label>User Id :</Form.Label>
           <Form.Control type="number" name="userId" value={inpVal.userId} placeholder="Enter Your User id" onChange={handler} />
+          {errors.userId && <p className='error'>{errors.userId}</p>}
         </Form.Group>
         <Form.Group className="mb-3" >
           <Form.Label>Title :</Form.Label>
@@ -113,6 +109,7 @@ export const AddPost = ({state}) => {
           >
             <Form.Control value={inpVal.title} name="title" as="textarea" placeholder="Leave a comment here" onChange={handler} />
           </FloatingLabel>
+          {errors.title && <p className='error'>{errors.title}</p>}
         </Form.Group>
 
         <Form.Group className="mb-3" >
@@ -124,8 +121,8 @@ export const AddPost = ({state}) => {
           >
             <Form.Control value={inpVal.body} name="body" as="textarea" placeholder="Leave a comment here" onChange={handler} />
           </FloatingLabel>
+          {errors.body && <p className='error'>{errors.body}</p>}
         </Form.Group>
-        <p style={{ color: "red" }} id='demo'></p>
     {
       data ? <Button onClick={updatetHandler} variant="danger" >
       Update

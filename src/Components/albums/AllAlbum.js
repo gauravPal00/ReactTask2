@@ -1,12 +1,10 @@
-import {Dialog} from './Modal'
+import {Dialog} from '../../Components/modal/Modal'
 import React, { useEffect, useState } from 'react'
 import {  Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import {  AlbumDataFetch } from './Action/AlbumIndex'
+import {  AlbumDataFetch } from '../../redux/action/album'
 import ReactPaginate from 'react-paginate'
-
-
-import { AllAlbumCard } from './AllAlbumCard'
+import {AllAlbumCard} from './AllAlbumCard'
 
 export const AllAlbum = () => {
 
