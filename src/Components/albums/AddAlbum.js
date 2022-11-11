@@ -3,25 +3,22 @@ import { Container, FloatingLabel } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { postAlbumData,updateAlbumData } from '../../redux/action/album';
-import { Validate1 } from '../validations/Validate1';
+import { useLocation } from 'react-router-dom';
+import { postAlbumData,updateAlbumData } from '../../redux/actions/album';
+
 
 
 export const AddAlbum = () => {
 
   const dispatch = useDispatch()
   let Location = useLocation()
-  const navigate = useNavigate()
   let data = Location.state
+  const [validated, setValidated] = useState(false);
   const [valueAlbum,setValueAlbum] = useState({
     userId:"",
     title:""
   })
-  const[errors,setErrors] = useState({})
-
-  const[dataIstrue,setDataIstrue] = useState(false)
-  const[dataIsupdate,setDataIsupdate] = useState(false)
+ 
 
   const resetHandler = ()=>{
     setValueAlbum({
@@ -52,70 +49,65 @@ export const AddAlbum = () => {
     setValueAlbum({ ...valueAlbum, [name]: value })
   }
 
-  const updatetHandler = (e)=>{
-    e.preventDefault()
-    setErrors(Validate1(valueAlbum))
-    setDataIsupdate(true)
-    
-  }
-
-  const submitHandler = (e) => {
-    e.preventDefault()
-    setErrors(Validate1(valueAlbum))
-    setDataIstrue(true)
   
-  }
+  const submitHandler = (event) => {  
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+    event.preventDefault();
+      setValidated(true);
+    }
+    else{ 
+      event.preventDefault();
+      if(data){
+        dispatch(updateAlbumData(valueAlbum))
+        setValidated(false);
+        setValueAlbum({
+          title: "",
+          userId: "",
+        })
+        }
+      else{
+        dispatch(postAlbumData(valueAlbum))
+        setValidated(false);
+        setValueAlbum({
+          title: "",
+          userId: "",
+        })
+      }
+     
+    }
+  };
 
-  useEffect(()=>{
-    if(Object.keys(errors).length === 0 && dataIstrue){
-      dispatch(postAlbumData(valueAlbum))
-      setValueAlbum({
-        title: "",
-         userId: "",
-      })
-      
-  }
-  else if(Object.keys(errors).length === 0 && dataIsupdate){
-    dispatch(updateAlbumData(valueAlbum))
-       navigate("/allalbum")
-       setValueAlbum({
-         title: "",
-         userId: "",
-       })
-  }
-  },[errors])
+ 
 
   return (
     <Container>
-    <Form>
+    <Form noValidate className='needs-validation' onSubmit={submitHandler}  validated={validated}>
       <Form.Group className="mb-3" >
         <Form.Label>User Id :</Form.Label>
-        <Form.Control type="number" name="userId" value={valueAlbum.userId} placeholder="Enter Your User id" onChange={handler} />
-        {errors.userId && <p className='error'>{errors.userId}</p>}
+        <Form.Control required type="number" name="userId" value={valueAlbum.userId} placeholder="Enter Your User id" onChange={handler} />
+        <Form.Control.Feedback type="invalid">
+            Please fill a userID
+          </Form.Control.Feedback>
       </Form.Group>
       <Form.Group className="mb-3" >
         <Form.Label>Title :</Form.Label>
-        <FloatingLabel
-
-          controlId="floatingTextarea"
-          label="Enter your title"
-          className="mb-3"
-        >
-          <Form.Control value={valueAlbum.title} name="title" as="textarea" placeholder="Leave a comment here" onChange={handler} />
-        </FloatingLabel>
-        {errors.title && <p className='error'>{errors.title}</p>}
+          <Form.Control required value={valueAlbum.title} name="title" as="textarea" placeholder="Leave a comment here" onChange={handler} />
+          <Form.Control.Feedback type="invalid">
+            Please fill a title
+          </Form.Control.Feedback>
       </Form.Group>
-
       {
-      data ? <Button onClick={updatetHandler} variant="danger" >
-      Update
-    </Button>:<>
-    <Button onClick={submitHandler} variant="primary" >
-      Submit
-    </Button>
-     <Button style={style} onClick={resetHandler} variant='info'>Reset</Button>
-     </>
-    }
+          data ? <Button type='submit' variant="danger" >
+            Update
+          </Button> :
+            <>
+              <Button  type='submit'  variant="primary" >
+                Submit
+              </Button>
+              <Button style={style} onClick={resetHandler} variant='info'>Reset</Button>
+            </>
+        }
     </Form>
   </Container>
   )

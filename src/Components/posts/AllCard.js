@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { Button, Card, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import {   useNavigate } from 'react-router-dom';
-import { modalHandler } from '../../redux/action/album';
-import { deletePostHandler, PostCommentsFetch } from '../../redux/action/post';
+import { modalHandler } from '../../redux/actions/album';
+import { deletePostHandler, PostCommentsFetch } from '../../redux/actions/post';
 
 export const AllCard = ({item}) => {
   

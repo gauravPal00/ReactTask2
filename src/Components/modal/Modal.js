@@ -1,7 +1,7 @@
 import React from 'react'
 import {  Card, Col, Modal, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { modalHandler } from '../../redux/action/album'
+import { modalHandler } from '../../redux/actions/album'
 
 
 export const Dialog = ({ isOpenModal ,selData}) => {

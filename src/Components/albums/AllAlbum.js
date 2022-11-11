@@ -2,7 +2,7 @@ import {Dialog} from '../../Components/modal/Modal'
 import React, { useEffect, useState } from 'react'
 import {  Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import {  AlbumDataFetch } from '../../redux/action/album'
+import {  AlbumDataFetch } from '../../redux/actions/album'
 import ReactPaginate from 'react-paginate'
 import {AllAlbumCard} from './AllAlbumCard'
 

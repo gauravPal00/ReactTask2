@@ -3,28 +3,21 @@ import { Container, FloatingLabel } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
-import {postDataHandler,PostupdateHandler } from '../../redux/action/post';
-import { Validate } from '../validations/Validate';
+import { useLocation } from 'react-router-dom';
+import { postDataHandler, PostupdateHandler } from '../../redux/actions/post';
 
 
-export const AddPost = ({state}) => {
+
+export const AddPost = ({ state }) => {
   let Location = useLocation()
   let data = Location.state
- 
-     let navigate =  useNavigate()
-
-   const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const [inpVal, setInpVal] = useState({
     title: "",
     userId: "",
     body: ""
   })
-
-  const[errors,setErrors] = useState({})
-
-  const[dataIstrue,setDataIstrue] = useState(false)
-  const[dataIsupdate,setDataIsupdate] = useState(false)
+  const [validated, setValidated] = useState(false);
 
   const handler = (e) => {
     const name = e.target.name
@@ -33,8 +26,8 @@ export const AddPost = ({state}) => {
   }
 
 
-  useEffect(()=>{
-    if(data){
+  useEffect(() => {
+    if (data) {
       setInpVal(data)
     }
     else {
@@ -44,96 +37,90 @@ export const AddPost = ({state}) => {
         body: ""
       })
     }
-  },[])
+  }, [])
 
-  const style ={
-    marginLeft:"10px"
-  }
-  
-  const updatetHandler = (e)=>{
-    e.preventDefault()
-      setErrors(Validate(inpVal))
-      setDataIsupdate(true)
+  const style = {
+    marginLeft: "10px"
   }
 
-  const resetHandler = ()=>{
+ 
+
+  const resetHandler = () => {
     setInpVal({
-      title:"",
-      body:"",
-      userId:""
+      title: "",
+      body: "",
+      userId: ""
     })
   }
- 
-  const submitHandler = (e) => {
-    e.preventDefault()
-    setErrors(Validate(inpVal))
-    setDataIstrue(true)
-    
-  }
 
-  useEffect(()=>{
-    if(Object.keys(errors).length === 0 && dataIstrue){
-      dispatch(postDataHandler(inpVal))
-      setInpVal({
-        title: "",
-        body: "",
-         userId: "",
-      })
-      
-  }
-  else if(Object.keys(errors).length === 0 && dataIsupdate){
-    dispatch(PostupdateHandler(inpVal))
-       navigate("/")
-       setInpVal({
-         title: "",
-         body: "",
-         userId: "",
-       })
-  }
-  },[errors])
+
+
+  const submitHandler = (event) => {  
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+    event.preventDefault();
+      setValidated(true);
+    }
+    else{ 
+      event.preventDefault();
+      if(data){
+        dispatch(PostupdateHandler(inpVal))
+        setValidated(false);
+        setInpVal({
+          title: "",
+          body: "",
+          userId: ""
+        })
+        }
+      else{
+        dispatch(postDataHandler(inpVal))
+        setValidated(false);
+        setInpVal({
+          title: "",
+          body: "",
+          userId: ""
+        })
+      }
+     
+    }
+  };
+
   return (
     <Container>
-      <Form>
+      <Form noValidate className='needs-validation' onSubmit={submitHandler}  validated={validated}>
         <Form.Group className="mb-3" >
           <Form.Label>User Id :</Form.Label>
-          <Form.Control type="number" name="userId" value={inpVal.userId} placeholder="Enter Your User id" onChange={handler} />
-          {errors.userId && <p className='error'>{errors.userId}</p>}
+          <Form.Control required type="number" name="userId" value={inpVal.userId} placeholder="Enter Your User id" onChange={handler} />
+          <Form.Control.Feedback type="invalid">
+            Please fill a userID
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="mb-3" >
           <Form.Label>Title :</Form.Label>
-          <FloatingLabel
-
-            controlId="floatingTextarea"
-            label="Enter your title"
-            className="mb-3"
-          >
-            <Form.Control value={inpVal.title} name="title" as="textarea" placeholder="Leave a comment here" onChange={handler} />
-          </FloatingLabel>
-          {errors.title && <p className='error'>{errors.title}</p>}
+          <Form.Control required value={inpVal.title} name="title" as="textarea" placeholder="Leave a comment here" onChange={handler} />
+          <Form.Control.Feedback type="invalid">
+            Please fill a title
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className="mb-3" >
-          <Form.Label>Body :</Form.Label>
-          <FloatingLabel
-            controlId="floatingTextarea"
-            label="Enter your description"
-            className="mb-3"
-          >
-            <Form.Control value={inpVal.body} name="body" as="textarea" placeholder="Leave a comment here" onChange={handler} />
-          </FloatingLabel>
-          {errors.body && <p className='error'>{errors.body}</p>}
+          <Form.Label>Body :</Form.Label> 
+            <Form.Control required value={inpVal.body} name="body" as="textarea" placeholder="Leave a comment here" onChange={handler} />
+          <Form.Control.Feedback type="invalid">
+            Please fill a Description
+          </Form.Control.Feedback>
         </Form.Group>
-    {
-      data ? <Button onClick={updatetHandler} variant="danger" >
-      Update
-    </Button>:
-    <>
-    <Button onClick={submitHandler} variant="primary" >
-      Submit
-    </Button>
-    <Button style={style} onClick={resetHandler} variant='info'>Reset</Button>
-    </>
-    }
+        {
+          data ? <Button type='submit' variant="danger" >
+            Update
+          </Button> :
+            <>
+              <Button  type='submit'  variant="primary" >
+                Submit
+              </Button>
+              <Button style={style} onClick={resetHandler} variant='info'>Reset</Button>
+            </>
+        }
       </Form>
     </Container>
   )

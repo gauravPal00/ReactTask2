@@ -8,9 +8,11 @@ import { AllAlbum } from './Components/albums/AllAlbum';
 import { AddAlbum } from './Components/albums/AddAlbum';
 
 
+
 function App() {
   return (
     <div className="App">
+     
       <BrowserRouter>
       <Header/>
       <Routes>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Card, Col } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { AlbumDataDelete, AlbumUserDataFetch, modalHandler } from '../../redux/action/album'
+import { AlbumDataDelete, AlbumUserDataFetch, modalHandler } from '../../redux/actions/album'
 
 export const AllAlbumCard = ({item}) => {
 
