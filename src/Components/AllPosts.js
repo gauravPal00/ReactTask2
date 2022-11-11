@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from 'react'
-import {  Container, Row } from 'react-bootstrap'
+import { Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { Pagination } from './Pagination'
+import ReactPaginate from 'react-paginate'
 import { Dialog } from './Modal'
 import { AllCard } from './AllCard'
 import { postDataFetch, PostUserDataFetch } from './Action/PostIndex'
@@ -20,37 +20,49 @@ export const AllPosts = () => {
 
   const { isOpenModal } = useSelector((state) => state.FetchReducers)
   const { selData } = useSelector((state) => state.FetchReducers)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [postsPerPage, setPostsPerPage] = useState(10)
-  const lastPostIndex = currentPage * postsPerPage;
-  const firstPostIndex = lastPostIndex - postsPerPage
-  const currentPost = post.slice(firstPostIndex, lastPostIndex)
 
   const style = {
     margin: "10px 0"
   }
-  const [data,setData] = useState("")
 
+  // react pagination
+  const [currentItems, setCurrentItems] = useState([])
+  const [pageCount, setpageCount] = useState(0)
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(post.slice(itemOffset, endOffset))
+    setpageCount(Math.ceil(post.length / itemsPerPage))
+  }, [itemOffset, itemsPerPage, post])
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % post.length;
+    setItemOffset(newOffset);
+  };
 
   useEffect(() => {
     dispatch(postDataFetch())
     dispatch(FetchUser())
   }, [])
 
-  const selectDataHandler =  (e)=>{
+  const selectDataHandler = (e) => {
     dispatch(PostUserDataFetch(e.target.value))
   }
 
-  useEffect(()=>{
-    if(location.pathname == "/"){
+  useEffect(() => {
+    if (location.pathname == "/") {
       dispatch(PostUserDataFetch(0))
     }
-  },[])
+  }, [])
+
+
   return (
     <Container>
       <h3>All Post</h3>
       <center>
-        <select  style={style} onChange={selectDataHandler}>
+        <select style={style} onChange={selectDataHandler}>
           <option >Choose username</option>
           {
             user.map((item, index) => {
@@ -64,26 +76,40 @@ export const AllPosts = () => {
         </select>
       </center>
 
-
       <Row lg={3} sm={1} md={2} >
         {
-          userData.length == 0 ? 
-          currentPost.map((item, index) => {
+          userData.length == 0 ?
+            currentItems.map((item, index) => {
               return (
-                <AllCard key={index} item={item}/>
+                <AllCard key={index} item={item} />
               )
             })
 
             : userData.map((item, index) => {
               return (
-                  <AllCard key={index} item={item}/>
+                <AllCard key={index} item={item} />
               )
             })
         }
       </Row>
       {
-        userData.length > 0 ? null : <Pagination totalPosts={post.length} postsPerPage={postsPerPage} setCurrentPage={setCurrentPage} />
+        userData.length > 0 ? null :
+          <ReactPaginate
+            breakLabel=".."
+            nextLabel="next >"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={2}
+            pageCount={pageCount}
+            previousLabel="< previous"
+            renderOnZeroPageCount={null}
+            containerClassName="pagination"
+            pageLinkClassName='page-num'
+            previousLinkClassName='page-num'
+            nextLinkClassName='page-num'
+            activeLinkClassName='page-num page-num1'
+          />
       }
+
       <Dialog isOpenModal={isOpenModal} selData={selData} />
     </Container>
   )
