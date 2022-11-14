@@ -31,11 +31,7 @@ export const AddPost = ({ state }) => {
       setInpVal(data)
     }
     else {
-      setInpVal({
-        title: "",
-        userId: "",
-        body: ""
-      })
+      resetHandler()
     }
   }, [])
 
@@ -66,20 +62,12 @@ export const AddPost = ({ state }) => {
       if(data){
         dispatch(PostupdateHandler(inpVal))
         setValidated(false);
-        setInpVal({
-          title: "",
-          body: "",
-          userId: ""
-        })
+        resetHandler()
         }
       else{
         dispatch(postDataHandler(inpVal))
         setValidated(false);
-        setInpVal({
-          title: "",
-          body: "",
-          userId: ""
-        })
+        resetHandler()
       }
      
     }

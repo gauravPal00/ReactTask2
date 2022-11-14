@@ -36,10 +36,7 @@ export const AddAlbum = () => {
       setValueAlbum(data)
     }
     else {
-      setValueAlbum({
-        title: "",
-        userId: "",
-      })
+      resetHandler()
     }
   },[])
 
@@ -61,18 +58,12 @@ export const AddAlbum = () => {
       if(data){
         dispatch(updateAlbumData(valueAlbum))
         setValidated(false);
-        setValueAlbum({
-          title: "",
-          userId: "",
-        })
+        resetHandler()
         }
       else{
         dispatch(postAlbumData(valueAlbum))
         setValidated(false);
-        setValueAlbum({
-          title: "",
-          userId: "",
-        })
+        resetHandler()
       }
      
     }

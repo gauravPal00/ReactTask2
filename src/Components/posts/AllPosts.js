@@ -13,7 +13,7 @@ export const AllPosts = () => {
   const dispatch = useDispatch()
   const location = useLocation()
 
-
+  const {error} = useSelector((state)=>state.FetchReducers)
   const { post } = useSelector((state) => state.FetchReducers)
   const { user } = useSelector((state) => state.FetchReducers)
   const { userData } = useSelector((state) => state.FetchReducers)
@@ -69,23 +69,33 @@ export const AllPosts = () => {
 
       <Row lg={3} sm={1} md={2} >
         {
-          userData.length == 0 ?
-          currentPost.map((item, index) => {
-              return (
-                <AllCard key={index} item={item} />
-              )
-            })
-
-            : userData.map((item, index) => {
-              return (
-                <AllCard key={index} item={item} />
-              )
-            })
+          error ? <h3>{error}</h3> :
+          <>
+          {
+            userData.length == 0 ?
+            currentPost.map((item, index) => {
+                return (
+                  <AllCard key={index} item={item} />
+                )
+              })
+  
+              : userData.map((item, index) => {
+                return (
+                  <AllCard key={index} item={item} />
+                )
+              })
+            }
+          </>
         }
+        
       </Row>
       {
+        error ? "":
+        <>
+        {
         userData.length > 0 ? null : <Main currentPage={currentPage} totalPosts={post.length} postsPerPage={postsPerPage} setCurrentPage={setCurrentPage} />
-        
+      }
+        </>
       }
 
       <Dialog isOpenModal={isOpenModal} selData={selData} />

@@ -7,6 +7,7 @@ const initialstate ={
     editData:[],
     albumData:[],
     isOpenModal:false,
+    error:""
 }
 
 export const FetchReducers = (state=initialstate,action) => {
@@ -52,6 +53,11 @@ export const FetchReducers = (state=initialstate,action) => {
                     isOpenModal:action.payload
                 }
 
+                case "ERRORHANDLE":
+                    return{
+                        ...state,
+                        error:action.payload
+                    }
                  
         default :
         return state

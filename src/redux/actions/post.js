@@ -2,11 +2,14 @@ import axios from "axios"
 // post api
 export const postDataFetch = ()=>{
     return async (dispatch) => {
-           await axios.get("https://jsonplaceholder.typicode.com/posts").then((res)=>{
-                dispatch(fetchPostData(res.data))
-            }).catch((err)=>{
-                console.log(err);
-            }) 
+        try{
+            const res =  await axios.get("https://jsonplaceholder.typicode.com/posts")
+            dispatch(fetchPostData(res.data))
+        }
+        catch(err){
+            dispatch(errorHandler(err.message))
+        }
+                    
     }
 }
 
@@ -17,11 +20,18 @@ export const fetchPostData = (data) => {
     }
 }
 
+export const errorHandler = (message) =>{
+    return{
+        type:"ERRORHANDLE",
+        payload:message
+    }
+}
+
 // get user post
 
 export const PostUserDataFetch = (id)=>{
-    return async (dispatch) =>{
-           await axios.get(`https://jsonplaceholder.typicode.com/users/${id}/posts`).then((res)=>{
+    return (dispatch) =>{
+            axios.get(`https://jsonplaceholder.typicode.com/users/${id}/posts`).then((res)=>{
                 dispatch(fetchUserPData(res.data))
               
             }).catch((err)=>{
@@ -40,8 +50,8 @@ export const fetchUserPData = (data) => {
 // get comments
 
 export const PostCommentsFetch = (id)=>{
-    return async (dispatch) => {
-           await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}/comments`).then((res)=>{
+    return  (dispatch) => {
+            axios.get(`https://jsonplaceholder.typicode.com/posts/${id}/comments`).then((res)=>{
                 dispatch(fetchUserComments(res.data))
             }).catch((err)=>{
                 console.log(err);
@@ -59,8 +69,8 @@ export const fetchUserComments = (data) => {
 // delete api
 
 export const deletePostHandler = (id)=>{
-    return async (dispatch) => {
-       await axios.delete(`https://jsonplaceholder.typicode.com/posts/${id} `).then((res)=>{
+    return  (dispatch) => {
+        axios.delete(`https://jsonplaceholder.typicode.com/posts/${id} `).then((res)=>{
             dispatch(fetchUserdelete(res.data))
             alert("DELETED SUCCESSFULLY")
             console.log(res.data);
@@ -71,7 +81,7 @@ export const deletePostHandler = (id)=>{
 }
 
 export const fetchUserdelete = (data) => {
-    console.log(data);
+ 
     return{
         type:"FETCHUSERDELETE",
     }
@@ -86,8 +96,8 @@ export const postDataHandler = (data)=>{
     body:data.body,
     userId:data.userId
    }
-    return async (dispatch) => {
-      await  axios.post(`https://jsonplaceholder.typicode.com/posts`,data1).then((res)=>{
+    return  (dispatch) => {
+        axios.post(`https://jsonplaceholder.typicode.com/posts`,data1).then((res)=>{
             alert("Succefully Added")
         }).catch((err)=>{
             console.log(err);
@@ -99,8 +109,8 @@ export const postDataHandler = (data)=>{
 
 
 export const PostupdateHandler = (data)=>{
-    return async (dispatch) => {
-        await axios.put(`https://jsonplaceholder.typicode.com/posts/${data.id} `,data).then((res)=>{
+    return  (dispatch) => {
+         axios.put(`https://jsonplaceholder.typicode.com/posts/${data.id} `,data).then((res)=>{
             alert("updated")
         }).catch((err)=>{
             
