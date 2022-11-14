@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import ReactPaginate from 'react-paginate'
 import {Dialog} from '../../Components/modal/Modal'
 import { postDataFetch, PostUserDataFetch } from '../../redux/actions/post'
 import { FetchUser } from '../../redux/actions/user'
 import { useLocation } from 'react-router-dom'
 import { AllCard } from './AllCard'
+import { Main } from '../pagination/Main'
 
 export const AllPosts = () => {
   const dispatch = useDispatch()
@@ -25,22 +25,13 @@ export const AllPosts = () => {
     margin: "10px 0"
   }
 
-  // react pagination
-  const [currentItems, setCurrentItems] = useState([])
-  const [pageCount, setpageCount] = useState(0)
-  const [itemOffset, setItemOffset] = useState(0);
-  const itemsPerPage = 10;
 
-  useEffect(() => {
-    const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(post.slice(itemOffset, endOffset))
-    setpageCount(Math.ceil(post.length / itemsPerPage))
-  }, [itemOffset, itemsPerPage, post])
+   const [currentPage, setCurrentPage] = useState(1)
+  const [postsPerPage, setPostsPerPage] = useState(10)
+  const lastPostIndex = currentPage * postsPerPage;
+  const firstPostIndex = lastPostIndex - postsPerPage
+  const currentPost = post.slice(firstPostIndex, lastPostIndex)
 
-  const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % post.length;
-    setItemOffset(newOffset);
-  };
 
   useEffect(() => {
     dispatch(postDataFetch())
@@ -79,7 +70,7 @@ export const AllPosts = () => {
       <Row lg={3} sm={1} md={2} >
         {
           userData.length == 0 ?
-            currentItems.map((item, index) => {
+          currentPost.map((item, index) => {
               return (
                 <AllCard key={index} item={item} />
               )
@@ -93,21 +84,8 @@ export const AllPosts = () => {
         }
       </Row>
       {
-        userData.length > 0 ? null :
-          <ReactPaginate
-            breakLabel=".."
-            nextLabel="next >"
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={2}
-            pageCount={pageCount}
-            previousLabel="< previous"
-            renderOnZeroPageCount={null}
-            containerClassName="pagination"
-            pageLinkClassName='page-num'
-            previousLinkClassName='page-num'
-            nextLinkClassName='page-num'
-            activeLinkClassName='page-num page-num1'
-          />
+        userData.length > 0 ? null : <Main currentPage={currentPage} totalPosts={post.length} postsPerPage={postsPerPage} setCurrentPage={setCurrentPage} />
+        
       }
 
       <Dialog isOpenModal={isOpenModal} selData={selData} />

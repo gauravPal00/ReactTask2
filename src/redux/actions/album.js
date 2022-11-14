@@ -9,9 +9,9 @@ export const modalHandler = (modal) => {
 
 // album api get
 
-export const AlbumDataFetch = ()=>{
-    return dispatch => {
-            axios.get(" https://jsonplaceholder.typicode.com/albums").then((res)=>{
+export  const  AlbumDataFetch = ()=>{
+    return async (dispatch) => {
+            await axios.get(" https://jsonplaceholder.typicode.com/albums").then((res)=>{
                 dispatch(fetchAlbumsData(res.data))
             }).catch((err)=>{
                 console.log(err);
@@ -28,8 +28,8 @@ export const fetchAlbumsData = (data) => {
 
 
 export const AlbumUserDataFetch = (id)=>{
-    return dispatch => {
-            axios.get(`https://jsonplaceholder.typicode.com/albums/${id}/photos`).then((res)=>{
+    return async (dispatch) => {
+           await axios.get(`https://jsonplaceholder.typicode.com/albums/${id}/photos`).then((res)=>{
                 dispatch(fetchUserAData(res.data))
                 
             }).catch((err)=>{
@@ -46,8 +46,8 @@ export const fetchUserAData = (data)=>{
 }
 
 export const AlbumDataDelete = (id)=>{
-    return dispatch => {
-        axios.delete(`https://jsonplaceholder.typicode.com/albums/${id} `).then((res)=>{
+    return async (dispatch) => {
+       await axios.delete(`https://jsonplaceholder.typicode.com/albums/${id} `).then((res)=>{
             dispatch(fetchAlbumdelete(res.data))
             alert("DELETED")
         }).catch((err)=>{
@@ -72,8 +72,8 @@ export const postAlbumData = (data)=>{
         body:data.body,
         userId:data.userId
        }
-        return dispatch => {
-            axios.post(`https://jsonplaceholder.typicode.com/albums`,data1).then((res)=>{
+        return async (dispatch) => {
+          await axios.post(`https://jsonplaceholder.typicode.com/albums`,data1).then((res)=>{
                
                 alert("Succefully Added")
             }).catch((err)=>{
@@ -84,8 +84,8 @@ export const postAlbumData = (data)=>{
 
 
 export const updateAlbumData = (data)=>{
-    return dispatch => {
-        axios.put(`https://jsonplaceholder.typicode.com/posts/${data.id} `,data).then((res)=>{
+    return async (dispatch) => {
+       await axios.put(`https://jsonplaceholder.typicode.com/posts/${data.id} `,data).then((res)=>{
             alert("updated")
         }).catch((err)=>{
             console.log(err);
