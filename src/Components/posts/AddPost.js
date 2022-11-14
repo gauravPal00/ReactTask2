@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, FloatingLabel } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
@@ -33,7 +33,7 @@ export const AddPost = ({ state }) => {
     else {
       resetHandler()
     }
-  }, [])
+  },[data])
 
   const style = {
     marginLeft: "10px"

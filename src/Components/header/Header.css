@@ -1,4 +1,11 @@
-.Links{
+
+.navbar-expand .navbar-nav .Links{
+    padding-right: 10px;
+    padding-right:"10px" ;
     text-decoration: none;
+    color: white;  
+}
+
+.navbar-expand .navbar-nav .Links:hover{
     color: white;
 }

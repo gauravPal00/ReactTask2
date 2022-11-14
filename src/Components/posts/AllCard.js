@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Button, Card, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import {   useNavigate } from 'react-router-dom';
@@ -6,7 +6,6 @@ import { modalHandler } from '../../redux/actions/album';
 import { deletePostHandler, PostCommentsFetch } from '../../redux/actions/post';
 
 export const AllCard = ({item}) => {
-  
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -28,7 +27,7 @@ export const AllCard = ({item}) => {
   return (
     <Col>
           <Card style={style} onClick={() => { mainHandle(item.id) }} >
-            <Card.Body>
+            <Card.Body style={{height:"200px",overflowY:"scroll"}} >
               <Card.Title>{item.id} : {item.title}</Card.Title>
               <Card.Text>
                 {item.body}

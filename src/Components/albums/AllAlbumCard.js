@@ -28,7 +28,7 @@ export const AllAlbumCard = ({ item }) => {
   return (
     <Col>
       <Card style={style} onClick={() => { mainHandle(item.id) }} >
-        <Card.Body >
+        <Card.Body style={{height:"100px",overflowY:"scroll"}}>
           <Card.Title>{item.id}</Card.Title>
           <Card.Text>
             {item.title}

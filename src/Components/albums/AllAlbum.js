@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import {  Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import {  AlbumDataFetch } from '../../redux/actions/album'
-import ReactPaginate from 'react-paginate'
 import {AllAlbumCard} from './AllAlbumCard'
 import { Main } from '../pagination/Main'
 
@@ -15,7 +14,7 @@ export const AllAlbum = () => {
   const {isOpenModal} = useSelector((state)=>state.FetchReducers)
 
   const [currentPage, setCurrentPage] = useState(1)
-  const [postsPerPage, setPostsPerPage] = useState(10)
+  const postsPerPage = 10
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage
   const currentPost = post.slice(firstPostIndex, lastPostIndex)
@@ -23,18 +22,19 @@ export const AllAlbum = () => {
 
   useEffect(()=>{
     dispatch(AlbumDataFetch())
-  },[])
+  },[dispatch])
 
+  const card =  currentPost.map((item, index) => {
+          return (
+           <AllAlbumCard key={index} item={item}/>
+          )
+        })
+      
  
   return (
     <Container>
-      <Row lg={3} sm={1} md={2} >{
-      currentPost.map((item, index) => {
-            return (
-             <AllAlbumCard key={index} item={item}/>
-            )
-          })
-        }
+      <Row lg={3} sm={1} md={2} >
+       {card}
       </Row>
       <Main currentPage={currentPage} totalPosts={post.length} postsPerPage={postsPerPage} setCurrentPage={setCurrentPage} />
      

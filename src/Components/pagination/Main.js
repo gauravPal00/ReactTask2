@@ -7,14 +7,13 @@ export const Main = ({ totalPosts, postsPerPage, setCurrentPage, currentPage }) 
     for (let number = 1; number <= Math.ceil(totalPosts / postsPerPage); number++) {
         items.push(
             <>
-            <Pagination.Item  key={currentPage} onClick={() => setCurrentPage(number)} active={number === currentPage }>
+            <Pagination.Item  key={number} onClick={() => setCurrentPage(number)} active={number === currentPage }>
                 {number}
             </Pagination.Item>
             </>
            
            );
         }
-
 
         const prevHandler = ()=>{
             if(currentPage>1){
