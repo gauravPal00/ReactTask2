@@ -10,11 +10,19 @@ export const AllAlbumCard = ({ item }) => {
   const navigate = useNavigate()
 
   const style = {
+   card:{
     margin: "10px 0"
-  }
-  const style1 = {
+   },
+   cardBody:{
+    height:"100px",
+    overflowY:"scroll"
+   },
+   button:{
     marginLeft: "10px "
+   }
+
   }
+ 
   const mainHandle = (id) => {
     dispatch(AlbumUserDataFetch(id))
     dispatch(modalHandler(true))
@@ -27,8 +35,8 @@ export const AllAlbumCard = ({ item }) => {
 
   return (
     <Col>
-      <Card style={style} onClick={() => { mainHandle(item.id) }} >
-        <Card.Body style={{height:"100px",overflowY:"scroll"}}>
+      <Card style={style.card} onClick={() => { mainHandle(item.id) }} >
+        <Card.Body style={style.cardBody}>
           <Card.Title>{item.id}</Card.Title>
           <Card.Text>
             {item.title}
@@ -37,7 +45,7 @@ export const AllAlbumCard = ({ item }) => {
         </Card.Body>
       </Card>
       <Button onClick={() => { dispatch(AlbumDataDelete(item.id)) }} variant="danger">DELETE</Button>
-      <Button style={style1} onClick={() => { editHandle(item) }} variant='warning'>Edit</Button>
+      <Button style={style.button} onClick={() => { editHandle(item) }} variant='warning'>Edit</Button>
     </Col>
 
   )

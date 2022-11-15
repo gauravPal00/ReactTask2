@@ -19,7 +19,6 @@ export const AllAlbum = () => {
   const firstPostIndex = lastPostIndex - postsPerPage
   const currentPost = post.slice(firstPostIndex, lastPostIndex)
 
-
   useEffect(()=>{
     dispatch(AlbumDataFetch())
   },[dispatch])
@@ -29,15 +28,13 @@ export const AllAlbum = () => {
            <AllAlbumCard key={index} item={item}/>
           )
         })
-      
- 
+
   return (
     <Container>
       <Row lg={3} sm={1} md={2} >
        {card}
       </Row>
       <Main currentPage={currentPage} totalPosts={post.length} postsPerPage={postsPerPage} setCurrentPage={setCurrentPage} />
-     
       <Dialog isOpenModal={isOpenModal} selData={selData}/>
     </Container>
   )

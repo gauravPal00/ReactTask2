@@ -1,3 +1,4 @@
+import React from 'react';
 import Pagination from 'react-bootstrap/Pagination';
 
 
@@ -6,11 +7,11 @@ export const Main = ({ totalPosts, postsPerPage, setCurrentPage, currentPage }) 
     let items = [];
     for (let number = 1; number <= Math.ceil(totalPosts / postsPerPage); number++) {
         items.push(
-            <>
-            <Pagination.Item  key={number} onClick={() => setCurrentPage(number)} active={number === currentPage }>
+            <React.Fragment key={number}>
+            <Pagination.Item  onClick={() => setCurrentPage(number)} active={number === currentPage }>
                 {number}
             </Pagination.Item>
-            </>
+            </React.Fragment>
            
            );
         }

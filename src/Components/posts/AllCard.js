@@ -21,12 +21,18 @@ export const AllCard = ({item}) => {
   
 
   const style = {
-    margin: "10px 0"
+    button:{
+      marginRight:"5px"
+    },
+    card:{
+      margin: "10px 0"
+    }
+    
   }
   
   return (
     <Col>
-          <Card style={style} onClick={() => { mainHandle(item.id) }} >
+          <Card style={style.card} onClick={() => { mainHandle(item.id) }} >
             <Card.Body style={{height:"200px",overflowY:"scroll"}} >
               <Card.Title>{item.id} : {item.title}</Card.Title>
               <Card.Text>
@@ -34,7 +40,7 @@ export const AllCard = ({item}) => {
               </Card.Text>
             </Card.Body>
          </Card>
-          <Button style={{marginRight:"5px"}} variant="danger" onClick={()=>{dispatch(deletePostHandler(item.id))}}>DELETE</Button>      
+          <Button style={style.button} variant="danger" onClick={()=>{dispatch(deletePostHandler(item.id))}}>DELETE</Button>      
              <Button onClick={()=>{editHandle(item)}} variant='warning'>Edit</Button>
        </Col>
   )
